@@ -1,4 +1,4 @@
-package kresna.kc.custom.endpoints;
+package kresnasatya.cloak.xpoints;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.models.KeycloakSession;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class KcResourceProvider implements RealmResourceProvider {
+public class CloakXResourceProvider implements RealmResourceProvider {
 
     private final KeycloakSession session;
     private final AuthResult auth;
 
-    public KcResourceProvider(KeycloakSession session) {
+    public CloakXResourceProvider(KeycloakSession session) {
         this.session = session;
         this.auth = new AppAuthManager.BearerTokenAuthenticator(session).authenticate();
     }
@@ -62,10 +62,10 @@ public class KcResourceProvider implements RealmResourceProvider {
         List<UserRepresentation> selectedUsers = new ArrayList<>();
 
         for (Map.Entry<String, List<String>> entry : searchAttributes.entrySet()) {
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getAttributes().containsKey(entry.getKey())) {
-                    if (users.get(i).getAttributes().containsValue(entry.getValue())) {
-                        selectedUsers.add(users.get(i));
+            for (UserRepresentation user: users) {
+                if (user.getAttributes().containsKey(entry.getKey())) {
+                    if (user.getAttributes().containsValue(entry.getValue())) {
+                        selectedUsers.add(user);
                     }
                 }
             }
@@ -79,8 +79,7 @@ public class KcResourceProvider implements RealmResourceProvider {
             maxResults = 20;
         }
 
-        selectedUsers = selectedUsers.stream().distinct().skip(firstResult).limit(maxResults).collect(Collectors.toList());
-        return selectedUsers;
+        return selectedUsers.stream().distinct().skip(firstResult).limit(maxResults).collect(Collectors.toList());
     }
 
 

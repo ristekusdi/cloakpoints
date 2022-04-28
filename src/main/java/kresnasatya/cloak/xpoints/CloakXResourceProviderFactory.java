@@ -1,4 +1,4 @@
-package kresna.kc.custom.endpoints;
+package kresnasatya.cloak.xpoints;
 
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;
@@ -6,13 +6,13 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
 
-public class KcResourceProviderFactory implements RealmResourceProviderFactory {
+public class CloakXResourceProviderFactory implements RealmResourceProviderFactory {
 
-    public static final String PROVIDER_ID = "kc-x";
+    public static final String PROVIDER_ID = "cloak-x";
 
     @Override
     public RealmResourceProvider create(KeycloakSession keycloakSession) {
-        return new KcResourceProvider(keycloakSession);
+        return new CloakXResourceProvider(keycloakSession);
     }
 
     @Override

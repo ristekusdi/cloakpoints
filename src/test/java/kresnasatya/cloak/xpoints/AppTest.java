@@ -1,4 +1,4 @@
-package kresna.kc.custom.endpoints;
+package kresnasatya.cloak.xpoints;
 
 import static org.junit.Assert.assertTrue;
 
