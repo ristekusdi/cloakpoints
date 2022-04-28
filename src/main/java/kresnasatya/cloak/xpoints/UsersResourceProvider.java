@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class CloakXResourceProvider implements RealmResourceProvider {
+public class UsersResourceProvider implements RealmResourceProvider {
 
     private final KeycloakSession session;
     private final AuthResult auth;
 
-    public CloakXResourceProvider(KeycloakSession session) {
+    public UsersResourceProvider(KeycloakSession session) {
         this.session = session;
         this.auth = new AppAuthManager.BearerTokenAuthenticator(session).authenticate();
     }

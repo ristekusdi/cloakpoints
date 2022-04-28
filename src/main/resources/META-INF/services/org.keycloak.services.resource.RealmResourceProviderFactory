@@ -1,1 +1,2 @@
-kresnasatya.cloak.xpoints.CloakXResourceProviderFactory
+kresnasatya.cloak.xpoints.UsersResourceProviderFactory
+kresnasatya.cloak.xpoints.GroupMembersResourceProviderFactory

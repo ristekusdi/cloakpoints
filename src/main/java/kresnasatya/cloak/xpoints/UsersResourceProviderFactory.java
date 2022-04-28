@@ -6,13 +6,13 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
 
-public class CloakXResourceProviderFactory implements RealmResourceProviderFactory {
+public class UsersResourceProviderFactory implements RealmResourceProviderFactory {
 
     public static final String PROVIDER_ID = "cloak-x";
 
     @Override
     public RealmResourceProvider create(KeycloakSession keycloakSession) {
-        return new CloakXResourceProvider(keycloakSession);
+        return new UsersResourceProvider(keycloakSession);
     }
 
     @Override
