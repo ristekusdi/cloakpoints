@@ -1,4 +1,4 @@
-package kresnasatya.cloak.xpoints;
+package ristekusdi.cloakpoints;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.models.GroupModel;

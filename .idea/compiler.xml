@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cloak-xpoints" />
         <module name="kc-custom-endpoints" />
+        <module name="cloakpoints" />
       </profile>
     </annotationProcessing>
   </component>

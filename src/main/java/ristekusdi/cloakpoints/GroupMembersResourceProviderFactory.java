@@ -1,4 +1,4 @@
-package kresnasatya.cloak.xpoints;
+package ristekusdi.cloakpoints;
 
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;

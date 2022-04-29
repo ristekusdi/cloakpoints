@@ -1,6 +1,6 @@
 # Keycloak Extension Endpoints
 
-The missing rest endpoints from Keycloak.
+The "missing things" from Keycloak Admin REST Endpoints.
 
 ## Endpoints
 

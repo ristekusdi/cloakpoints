@@ -1,4 +1,4 @@
-package kresnasatya.cloak.xpoints;
+package ristekusdi.cloakpoints;
 
 import static org.junit.Assert.assertTrue;
 
