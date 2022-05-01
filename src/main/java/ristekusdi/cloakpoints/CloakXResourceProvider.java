@@ -1,9 +1,7 @@
 package ristekusdi.cloakpoints;
 
 import lombok.RequiredArgsConstructor;
-import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.UserModel;
+import org.keycloak.models.*;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.services.managers.AppAuthManager;
@@ -111,6 +109,85 @@ public class CloakXResourceProvider implements RealmResourceProvider {
                 .collect(Collectors.toList());
 
 
+
+        if (search != null) {
+            Pattern pattern = Pattern.compile(search.trim(), Pattern.CASE_INSENSITIVE);
+            List<UserRepresentation> selectedUsers = new ArrayList<>();
+            for (UserRepresentation user : users) {
+                Matcher usernameMatcher = pattern.matcher(user.getUsername());
+                boolean usernameMatcherFound = usernameMatcher.find();
+
+                Matcher firstNameMatcher = pattern.matcher(user.getFirstName());
+                boolean firstNameMatcherFound = firstNameMatcher.find();
+
+                Matcher lastNameMatcher = pattern.matcher(user.getLastName());
+                boolean lastNameMatcherFound = lastNameMatcher.find();
+
+                Matcher emailMatcher = pattern.matcher(user.getEmail());
+                boolean emailMatcherFound = emailMatcher.find();
+
+                if (usernameMatcherFound || firstNameMatcherFound || lastNameMatcherFound || emailMatcherFound) {
+                    selectedUsers.add(user);
+                }
+            }
+
+            users = selectedUsers;
+        }
+
+        if (searchQuery != null) {
+            Map<String, List<String>> searchAttributes = setAttributes(searchQuery);
+            List<UserRepresentation> selectedUsers = new ArrayList<>();
+            for (Map.Entry<String, List<String>> entry : searchAttributes.entrySet()) {
+                for (UserRepresentation user: users) {
+                    if (user.getAttributes().containsKey(entry.getKey())) {
+                        if (user.getAttributes().containsValue(entry.getValue())) {
+                            selectedUsers.add(user);
+                        }
+                    }
+                }
+            }
+
+            users = selectedUsers;
+        }
+
+        if (firstResult == null || firstResult <= 0) {
+            firstResult = 0;
+        }
+
+        if (maxResults == null || maxResults <= 0) {
+            maxResults = 5;
+        }
+
+        return users.stream().distinct().skip(firstResult).limit(maxResults).collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("clients/{id}/roles/{role-name}/users")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<UserRepresentation> clientRoleUsers(@PathParam("id") String id,
+                                                 @PathParam("role-name") String roleName,
+                                                 @QueryParam("search") String search,
+                                                 @QueryParam("q") String searchQuery,
+                                                 @QueryParam("first") Integer firstResult,
+                                                 @QueryParam("max") Integer maxResults) {
+        if (this.auth == null || this.auth.getToken() == null) {
+            throw new NotAuthorizedException("Bearer");
+        }
+
+        ClientModel client = session.getContext().getRealm().getClientById(id);
+        if (client == null) {
+            throw new NotFoundException("Could not find client by id");
+        }
+
+        RoleModel role = client.getRole(roleName);
+        if (role == null) {
+            throw new NotFoundException("Could not find role by role-name");
+        }
+
+
+        Stream<UserModel> membersModel = session.users().getRoleMembersStream(session.getContext().getRealm(), role);
+        List<UserRepresentation> users =  membersModel.map(userModel -> ModelToRepresentation.toRepresentation(session, session.getContext().getRealm(), userModel))
+                .collect(Collectors.toList());
 
         if (search != null) {
             Pattern pattern = Pattern.compile(search.trim(), Pattern.CASE_INSENSITIVE);
