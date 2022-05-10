@@ -16,8 +16,8 @@ This library has cover this case.
 ## Endpoints
 
 - GET list of users `/{cloak-x}/users?search=value&q=attr:value`
-- GET list of members belong to a group `/{cloak-x}/groups/{id}/members?search=value&q=attr:value`
-- GET list of users belong to a client role `/{cloak-x}/clients/{id}/roles/{role-name}/users?search=value&q=attr:value`
+- ~~GET list of members belong to a group `/{cloak-x}/groups/{id}/members?search=value&q=attr:value`~~
+- ~~GET list of users belong to a client role `/{cloak-x}/clients/{id}/roles/{role-name}/users?search=value&q=attr:value`~~
 
 Note: `search` param works with username, first or last name or email and `q` works with user attribute.
 
